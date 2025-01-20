@@ -1,0 +1,11 @@
+../Application Layer/Al-Ahram/Al-Ahram.c:106:6:Al_Ahram_Runnable	2
+../Application Layer/Al-Ahram/Al-Ahram.c:152:5:getStableWeight	6
+../Application Layer/Al-Ahram/Al-Ahram.c:219:5:detectSpecies	7
+../Application Layer/Al-Ahram/Al-Ahram.c:250:6:sendDataToESP32	1
+../Application Layer/Al-Ahram/Al-Ahram.c:267:6:GLCD_Display_Result	1
+../Application Layer/Al-Ahram/Al-Ahram.c:290:6:DisplayPage1	1
+../Application Layer/Al-Ahram/Al-Ahram.c:302:6:DisplayPage2	1
+../Application Layer/Al-Ahram/Al-Ahram.c:317:6:DisplayPage3	1
+../Application Layer/Al-Ahram/Al-Ahram.c:325:6:Al_Ahram_SystemClock_Config	3
+../Application Layer/Al-Ahram/Al-Ahram.c:70:6:Al_Ahram_setup	4
+../Application Layer/Al-Ahram/Al-Ahram.c:401:6:Al_Ahram_Error_Handler	1

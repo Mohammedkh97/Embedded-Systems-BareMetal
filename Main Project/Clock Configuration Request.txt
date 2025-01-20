@@ -1,0 +1,154 @@
+I'm working on STM32, and i want to configure the clock from this function 
+RCC_void_System_Clock_Init(RCC_PLL, RCC_PLL_IN_HSE_DIV_2, PLL_CLOCK_MULTIPLE_BY_9, LATENCY_2, RCC_SYSCLK_DIV1, RCC_HCLK_DIV2, RCC_HCLK_DIV1)
+{
+    // Step 1: Configure Flash Latency
+    FLASH->ACR &= ~((0b111) << LATENCY_1); // Clear LATENCY bits
+//  FLASH->ACR |= (flashLatency << LATENCY_1); // Set the desired flash latency
+    SET_BIT(FLASH->ACR , Flash_Latency);
+
+    // Step 2: Configure the clock source
+    switch (clockType)
+    {
+        case RCC_HSI:  // High-Speed Internal oscillator
+            CLEAR_BIT(RCC->CFGR, SW_0);
+            CLEAR_BIT(RCC->CFGR, SW_1);
+            SET_BIT(RCC->CR, HSION);  // Enable HSI
+            break;
+
+        case RCC_HSE_CRYSTAL:  // HSE with crystal oscillator
+            SET_BIT(RCC->CFGR, SW_0);
+            CLEAR_BIT(RCC->CFGR, SW_1);
+            CLEAR_BIT(RCC->CR, HSEBYP); // Disable bypass
+            SET_BIT(RCC->CR, HSEON);  // Enable HSE
+            break;
+
+        case RCC_HSE_RC:  // HSE with external RC oscillator
+            SET_BIT(RCC->CFGR, SW_0);
+            CLEAR_BIT(RCC->CFGR, SW_1);
+            SET_BIT(RCC->CR, HSEBYP); // Enable bypass
+            SET_BIT(RCC->CR, HSEON);  // Enable HSE
+            break;
+
+        case RCC_PLL:  // Phase-Locked Loop
+            CLEAR_BIT(RCC->CFGR, SW_0);
+            SET_BIT(RCC->CFGR, SW_1);
+
+            RCC->CFGR &= ~((0b1111) << PLLMUL_18); // Clear PLLMUL bits
+            RCC->CFGR |= (pllMulFactor << PLLMUL_18); // Set PLL multiplier factor
+
+            // Step 3: Configure PLL input source
+            switch (pllInput)
+            {
+                case RCC_PLL_IN_HSI_DIV_2:  // HSI/2 as PLL input
+                    CLEAR_BIT(RCC->CFGR, PLLSRC);
+                    break;
+
+                case RCC_PLL_IN_HSE_DIV_2:  // HSE/2 as PLL input
+                    SET_BIT(RCC->CR, HSEON);  // Enable HSE
+                    SET_BIT(RCC->CFGR, PLLSRC);
+                    SET_BIT(RCC->CFGR, PLLXTPRE);  // Divide HSE by 2
+                    break;
+
+                case RCC_PLL_IN_HSE:  // HSE as PLL input
+                    SET_BIT(RCC->CR, HSEON);  // Enable HSE
+                    SET_BIT(RCC->CFGR, PLLSRC);
+                    CLEAR_BIT(RCC->CFGR, PLLXTPRE);  // No division
+                    break;
+
+                default:
+                    // Error handling for invalid PLL input
+                    break;
+            }
+
+            SET_BIT(RCC->CR, PLLON);  // Enable PLL
+            while (GET_BIT(RCC->CR, PLLRDY) == 0);  // Wait for PLL to be ready
+            break;
+
+        default:
+            // Error handling for invalid clock type
+            break;
+    }
+
+    // Step 4: Configure clock dividers for AHB, APB1, APB2
+    RCC->CFGR &= ~(0b1111 << HPRE_4);  // Clear AHB Prescaler bits
+    RCC->CFGR |= RCC_SYSCLK_DIV1 << HPRE_4;  // AHB Clock Prescaler (no division)
+
+
+    RCC->CFGR &= ~(0b111 << PPRE1_8);  // Clear APB1 Prescaler bits
+    RCC->CFGR |= RCC_HCLK_DIV2 << PPRE1_8;  // APB1 Clock Prescaler (divided by 2)
+
+    RCC->CFGR &= ~(0b111 << PPRE2_11);  // Clear APB2 Prescaler bits
+    RCC->CFGR |= RCC_HCLK_DIV1 << PPRE2_11;  // APB2 Clock Prescaler (no division)
+}
+
+
+void RCC_void_Enable_Clock(RCC_Bus_t Bus_ID , u8 Peripheral_ID)
+{
+    // Check if the peripheral ID is within valid range (0 to 31)
+    if (Peripheral_ID <= 31)
+    {
+        switch (Bus_ID)
+        {
+            case RCC_AHBENR:
+                SET_BIT(RCC->AHBENR, Peripheral_ID); // Enable clock on AHB bus
+                break;
+            case RCC_APB1ENR:
+                SET_BIT(RCC->APB1ENR, Peripheral_ID); // Enable clock on APB1 bus
+                break;
+            case RCC_APB2ENR:
+                SET_BIT(RCC->APB2ENR, Peripheral_ID); // Enable clock on APB2 bus
+                break;
+            default:
+                // Handle invalid bus ID error
+                // You may want to log or assert an error here
+                break;
+        }
+    }
+    else
+    {
+        // Handle invalid peripheral ID error
+        // You may want to log or assert an error here
+    }
+}
+
+
+
+to do the same functionality of this function :
+void SystemClock_Config (void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct =
+    { 0 };
+  RCC_ClkInitTypeDef RCC_ClkInitStruct =
+    { 0 };
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+   * in the RCC_OscInitTypeDef structure.
+   */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+  if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK)
+    {
+      Error_Handler ();
+    }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+      | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    {
+      Error_Handler ();
+    }
+}
+
+Please make appropriate adjustments.

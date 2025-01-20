@@ -1,0 +1,4 @@
+../Application Layer/GeneralCode/MainApp.c:96:6:System_Runnable	40	static
+../Application Layer/GeneralCode/MainApp.c:278:6:SystemClock_Config	72	static,ignoring_inline_asm
+../Application Layer/GeneralCode/MainApp.c:61:6:SysInit	48	static,ignoring_inline_asm
+../Application Layer/GeneralCode/MainApp.c:409:6:Error_Handler	0	static,ignoring_inline_asm

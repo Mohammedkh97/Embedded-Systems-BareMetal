@@ -1,0 +1,13 @@
+../MCAL/SPI/SPI_Program.c:24:6:SPI_Init	0	static
+../MCAL/SPI/SPI_Program.c:111:6:void_SPI_Send_Receive	8	static
+../MCAL/SPI/SPI_Program.c:159:6:SPI_void_Write_Data	0	static
+../MCAL/SPI/SPI_Program.c:187:4:SPI_u8_Send_Receive_Byte	8	static
+../MCAL/SPI/SPI_Program.c:219:6:SPI_sendString	16	static
+../MCAL/SPI/SPI_Program.c:503:6:void_SPI1_Set_ClockPolarity	0	static
+../MCAL/SPI/SPI_Program.c:518:6:void_SPI2_Set_ClockPolarity	0	static
+../MCAL/SPI/SPI_Program.c:486:6:void_SPI_Set_ClockPolarity	0	static
+../MCAL/SPI/SPI_Program.c:551:6:void_SPI1_Set_ClockPhase	0	static
+../MCAL/SPI/SPI_Program.c:566:6:void_SPI2_Set_ClockPhase	0	static
+../MCAL/SPI/SPI_Program.c:535:6:void_SPI_Set_ClockPhase	0	static
+../MCAL/SPI/SPI_Program.c:581:6:void_SPI_Set_Baud_Rate_Prescaler	0	static
+../MCAL/SPI/SPI_Program.c:94:6:SPI_void_Initialization	40	static

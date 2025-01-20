@@ -1,0 +1,2 @@
+../HAL/RFID2/SPI.c:9:6:SPI2_Init	0	static
+../HAL/RFID2/SPI.c:24:9:SPI2_Transfer	0	static

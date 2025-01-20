@@ -1,0 +1,6 @@
+../MCAL/USART/USART_Program.c:35:6:USART_void_Initializtion	40	static
+../MCAL/USART/USART_Program.c:46:6:USART_void_Transmit_Byte	0	static
+../MCAL/USART/USART_Program.c:85:4:USART_void_Receive_Byte	0	static
+../MCAL/USART/USART_Program.c:123:4:USART_isDataAvailable	0	static
+../MCAL/USART/USART_Program.c:140:6:USART_receiveStringUntil2term_timeout	56	static
+../MCAL/USART/USART_Program.c:218:6:USART_receiveFrame	24	static

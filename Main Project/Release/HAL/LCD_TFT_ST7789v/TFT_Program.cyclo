@@ -1,0 +1,13 @@
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:21:6:HTFT_voidGPIOInit	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:90:6:HTFT_voidWriteData	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:122:6:HTFT_voidSendCommand	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:133:6:HTFT_voidSendData	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:142:6:HTFT_voidInit	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:192:6:HTFT_voidFillScreen	2
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:229:6:HTFT_voidDrawRectangle	4
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:378:6:HTFT_voidSetPixelAddress	2
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:368:6:HTFT_voidDrawPixel	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:409:5:reverseTwoBytes	1
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:318:6:HTFT_voidDrawChar	5
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:263:6:HTFT_voidWriteString	5
+../HAL/LCD_TFT_ST7789v/TFT_Program.c:417:4:reverseByte	1

@@ -1,0 +1,6 @@
+../MCAL/RCC/RCC_Program.c:32:6:RCC_void_System_Clock_Init	0	static
+../MCAL/RCC/RCC_Program.c:219:6:RCC_void_Enable_Clock	0	static
+../MCAL/RCC/RCC_Program.c:248:6:RCC_void_Disable_Clock	0	static
+../MCAL/RCC/RCC_Program.c:276:6:RCC_void_APB2ENR_Enable	0	static
+../MCAL/RCC/RCC_Program.c:281:6:RCC_void_APB2ENR_Disable	0	static
+../MCAL/RCC/RCC_Program.c:408:6:RCC_Enable_8_MHz_HSI	0	static

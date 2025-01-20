@@ -1,0 +1,2 @@
+../Services/USART_Services/USART_Services.c:13:6:USART_Transmit_String	2
+../Services/USART_Services/USART_Services.c:23:6:USART_ReceiveString	2

@@ -1,0 +1,56 @@
+f32 getStableWeight(f32 currentWeight, u16 *pStableCounts, f32 *pStableWeights, u16 *pTotalStaticCounts, f32 avgWeight)
+{
+    static f32 previousWeight = 0.0;
+    static f32 lastStableWeight = 0.0;
+    static f32 totalStableWeight = 0.0;
+    static u16 stableSpeciesCount = 0;
+    static u16 totalSpeciesCount = 0;
+    static u16 stableCounter = 0;
+
+    // Stability check
+    if (get_AbsoluteValue(currentWeight - previousWeight) <= STATIC_WEIGHT_THRESHOLD)
+    {
+        stableCounter++;
+        if (stableCounter >= STABLE_COUNT_THRESHOLD)
+        {
+            stableCounter = STABLE_COUNT_THRESHOLD;
+            lastStableWeight = currentWeight;
+        }
+    }
+    else
+    {
+        stableCounter = 0;
+    }
+
+    // Detect new weight
+    if (lastStableWeight > previousWeight)
+    {
+        f32 addedWeight = lastStableWeight - previousWeight;
+        totalStableWeight += addedWeight;
+
+        // Update species count
+        u16 detectedSpecies = (u16)(addedWeight / avgWeight);
+        stableSpeciesCount += detectedSpecies;
+        totalSpeciesCount += detectedSpecies;
+
+        previousWeight = lastStableWeight;  // Update previous weight
+    }
+    else if (currentWeight == 0 && lastStableWeight > 0)
+    {
+        // Reset logic when weight is removed
+        previousWeight = 0;
+        lastStableWeight = 0;
+    }
+
+    // Display values
+    GLCD_ST7920_WriteNumber(0, 0, currentWeight, 2);
+    GLCD_ST7920_WriteNumber(1, 0, totalStableWeight, 2);
+    GLCD_ST7920_WriteNumber(2, 0, stableSpeciesCount, 2);
+
+    // Update output parameters
+    *pStableCounts = stableSpeciesCount;
+    *pTotalStaticCounts = totalSpeciesCount;
+    *pStableWeights = totalStableWeight;
+
+    return lastStableWeight;
+}

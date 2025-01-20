@@ -1,0 +1,15 @@
+../Private/String/String_lib.c:13:6:swapMethod1	0	static
+../Private/String/String_lib.c:22:6:swapPointers	0	static
+../Private/String/String_lib.c:31:6:appendChar	0	static
+../Private/String/String_lib.c:49:6:stringConcat	0	static
+../Private/String/String_lib.c:92:5:string_len	0	static
+../Private/String/String_lib.c:70:6:stringConcat_unlimited	20	static
+../Private/String/String_lib.c:103:6:reverseString	8	static
+../Private/String/String_lib.c:116:6:intoString	8	static
+../Private/String/String_lib.c:152:6:floatToString	24	static
+../Private/String/String_lib.c:189:6:UpperTolower	0	static
+../Private/String/String_lib.c:201:4:compareChar	8	static
+../Private/String/String_lib.c:218:4:compareCharNotCaseSensitive	8	static
+../Private/String/String_lib.c:235:6:sortStrings	32	static
+../Private/String/String_lib.c:251:4:binarySearchString	24	static
+../Private/String/String_lib.c:274:7:memorySet	8	static

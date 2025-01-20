@@ -1,0 +1,3 @@
+../Private/Delay/delay.c:24:6:delay_init	1
+../Private/Delay/delay.c:29:6:delay_us	2
+../Private/Delay/delay.c:35:6:delay_ms	1
