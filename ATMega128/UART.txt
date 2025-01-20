@@ -1,0 +1,78 @@
+/*
+void UART_init(u32 baud_rate,u8 channel)
+{
+	if(channel == UART0)
+	{
+			//GPIO_setupPinDirection(PORTE_ID,PIN0_ID,PIN_INPUT);
+			//GPIO_setupPinDirection(PORTE_ID,PIN1_ID,PIN_OUTPUT);
+			u16 ubrr_value = 0;
+			/* U2X = 1 for double transmission speed */
+			UCSR0A = (1<<U2X0);
+
+			/************************** UCSRB Description **************************
+			 * RXCIE0 = 1 Enable USART RX Complete Interrupt Enable
+			 * TXCIE0 = 0 Disable USART Tx Complete Interrupt Enable
+			 * UDRIE0 = 0 Disable USART Data Register Empty Interrupt Enable
+			 * RXEN0  = 1 Receiver Enable
+			 * RXEN0  = 1 Transmitter Enable
+			 * UCSZ2 = 0 For 8-bit data mode
+			 * RXB8 & TXB8 not used for 8-bit data mode
+			 ***********************************************************************/
+			UCSR0B = (1<<RXCIE0) | (1<<RXEN0) | (1<<TXEN0);
+
+			/************************** UCSRC Description **************************
+			 * URSEL   = 1 The URSEL must be one when writing the UCSRC
+			 * UMSEL   = 0 Asynchronous Operation
+			 * UPM1:0  = 00 Disable parity bit
+			 * USBS    = 0 One stop bit
+			 * UCSZ1:0 = 11 For 8-bit data mode
+			 * UCPOL   = 0 Used with the Synchronous operation only
+			 ***********************************************************************/
+			UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
+
+			/* Calculate the UBRR register value */
+			ubrr_value = (u16)(((F_CPU / (baud_rate * 8UL))) - 1);
+
+			/* First 8 bits from the BAUD_PRESCALE inside UBRRL and last 4 bits in UBRRH*/
+			UBRR0H = ubrr_value>>8;
+			UBRR0L = ubrr_value;
+	}
+	else if(channel == UART1)
+	{
+			//GPIO_setupPinDirection(PORTE_ID,PIN0_ID,PIN_INPUT);
+			//GPIO_setupPinDirection(PORTE_ID,PIN1_ID,PIN_OUTPUT);
+			u16 ubrr_value = 0;
+			/* U2X = 1 for double transmission speed */
+			UCSR1A = (1<<U2X1);
+
+			/************************** UCSRB Description **************************
+			 * RXCIE0 = 1 Enable USART RX Complete Interrupt Enable
+			 * TXCIE0 = 0 Disable USART Tx Complete Interrupt Enable
+			 * UDRIE0 = 0 Disable USART Data Register Empty Interrupt Enable
+			 * RXEN0  = 1 Receiver Enable
+			 * RXEN0  = 1 Transmitter Enable
+			 * UCSZ2 = 0 For 8-bit data mode
+			 * RXB8 & TXB8 not used for 8-bit data mode
+			 ***********************************************************************/
+			UCSR1B = (1<<RXCIE1) | (1<<RXEN1) | (1<<TXEN1);
+
+			/************************** UCSRC Description **************************
+			 * URSEL   = 1 The URSEL must be one when writing the UCSRC
+			 * UMSEL   = 0 Asynchronous Operation
+			 * UPM1:0  = 00 Disable parity bit
+			 * USBS    = 0 One stop bit
+			 * UCSZ1:0 = 11 For 8-bit data mode
+			 * UCPOL   = 0 Used with the Synchronous operation only
+			 ***********************************************************************/
+			UCSR1C = (1<<UCSZ11) | (1<<UCSZ10);
+
+			/* Calculate the UBRR register value */
+			ubrr_value = (u16)(((F_CPU / (baud_rate * 8UL))) - 1);
+
+			/* First 8 bits from the BAUD_PRESCALE inside UBRRL and last 4 bits in UBRRH*/
+			UBRR1H = ubrr_value>>8;
+			UBRR1L = ubrr_value;
+	}
+
+}
+*/
