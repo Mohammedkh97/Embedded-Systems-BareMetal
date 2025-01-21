@@ -1,0 +1,23 @@
+==================================================
+hx711 lib
+==================================================
+= Copyright (c) Davide Gironi, 2018              =
+= http://davidegironi.blogspot.it/               =
+==================================================
+
+
+HX711 is a precision 24-bit ADC designed for weight scales and
+industrial control applications.
+This library implements a driver for this IC.
+Functions to read weight, set tare, offset and scale.
+Setup parameters are stored in file hx711.h
+
+
+Devel Notes
+-----------
+This library was developed on Eclipse, built with avr-gcc on Atmega8 @ 1MHz.
+
+
+License
+-------
+Please refer to LICENSE file for licensing information.

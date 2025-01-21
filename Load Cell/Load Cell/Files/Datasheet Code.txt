@@ -1,0 +1,39 @@
+void HX711_init() {
+	DDRD |= (1 << HX711_SCK); // Set SCK as output
+	DDRD &= ~(1 << HX711_DOUT); // Set DOUT as input
+	PORTD &= ~(1 << HX711_SCK); // Set SCK to low initially
+}
+
+// Function to read from the HX711
+unsigned long ReadCount(void) {
+	unsigned long Count = 0;
+	unsigned char i;
+
+	// Wait until the HX711 is ready (DOUT goes low)
+	while(PIND & (1 << HX711_DOUT));
+
+	// Read 24 bits of data from the HX711
+	for (i = 0; i < 24; i++) {
+		PORTD |= (1 << HX711_SCK);  // Set SCK high
+		_delay_us(1);               // Short delay
+
+		Count = Count << 1;         // Shift left to make room for the next bit
+
+		PORTD &= ~(1 << HX711_SCK); // Set SCK low
+		_delay_us(1);               // Short delay
+
+		if (PIND & (1 << HX711_DOUT)) { // Read the bit from DOUT
+			Count++;
+		}
+	}
+
+	// Set the gain to 128 by issuing one more clock pulse
+	PORTD |= (1 << HX711_SCK);      // Set SCK high
+	_delay_us(1);                   // Short delay
+	PORTD &= ~(1 << HX711_SCK);     // Set SCK low
+
+	// Apply two's complement
+	Count ^= 0x800000;
+
+	return Count;
+}

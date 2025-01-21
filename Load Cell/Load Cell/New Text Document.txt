@@ -1,0 +1,174 @@
+
+/*
+int main(void)
+{
+		DIO_init();
+	LCD_Init();
+	HX711_init(GAIN_CHANNEL_A_128);
+	
+	HX711_set_scale(1.f /*242300.88*/);
+
+	//LCD_Goto_WriteString(1,1,(u8*)"Weight=");
+	
+	u32 offset = HX711_read();
+	f32 known_weight = 500.0; // Example known weight in grams
+	LCD_Goto_WriteNumber(1,1, offset);
+	u32 raw_value_with_weight = HX711_read();
+	LCD_Goto_WriteNumber(1,10 , raw_value_with_weight);
+	
+	f32 scale = known_weight / (raw_value_with_weight - offset);
+	long raw_value = HX711_read();
+	LCD_Goto_WriteNumber(2,1 , raw_value);
+	f32 weight = (raw_value - offset) * scale;
+	LCD_GoTo_WriteFloatNumber(2,12,weight ,1);
+	
+    HX711_tare(10);
+    double tare_point_128 = HX711_get_offset();
+    double calibration_128 = 222138.f;//220235.f;	
+	while (1)
+	{
+		weight = HX711_read();
+		LCD_Goto_WriteNumber(1,13,weight);
+		_delay_ms(100);
+		DIO_WritePin1(PINA0 , HIGH);
+		_delay_ms(100);
+		DIO_WritePin1(PINA0 , LOW);
+	
+	}
+}
+*/
+
+#include <avr/io.h>
+#include <util/delay.h>
+/*
+#define HX711_DOUT PIND6
+#define HX711_SCK  PIND5
+
+void HX711_Init() {
+	// Set SCK as output
+	DDRD |= (1 << HX711_SCK);
+	// Set DOUT as input
+	DDRD &= ~(1 << HX711_DOUT);
+}
+
+u32 HX711_Read() {
+	long count = 0;
+	// Wait until the HX711 is ready
+	while (PIND & (1 << HX711_DOUT));
+	
+	// Read 24-bit data
+	for (u8 i = 0; i < 24; i++) {
+		PORTD |= (1 << HX711_SCK);
+		_delay_us(1);
+		count = count << 1;
+		PORTD &= ~(1 << HX711_SCK);
+		if (PIND & (1 << HX711_DOUT)) {
+			count++;
+		}
+	}
+	
+	// Set the channel and gain factor (A channel, gain factor 128)
+	PORTD |= (1 << HX711_SCK);
+	_delay_us(1);
+	PORTD &= ~(1 << HX711_SCK);
+	count ^= 0x800000;
+	return count;
+}
+
+int main(void) {
+	DIO_init();
+	LCD_Init();
+	HX711_Init();
+	LCD_Goto_WriteString(1,1,(u8*)"Weight= ");
+	u32 weight;
+	
+	while (1) {
+		weight = HX711_Read();
+		// Do something with the weight value
+		LCD_Goto_WriteNumber(1,12,weight);
+		_delay_ms(100);
+		DIO_WritePin1(PINA0 , HIGH);
+		_delay_ms(100);
+		DIO_WritePin1(PINA0 , LOW);
+	
+	}
+}
+
+*/
+
+void HX711_Init();
+u32 HX711_Read();
+u32 calibrate_scale();
+u32 get_Weight(u32 scale_factor);
+
+int main(void) {
+	DIO_init();
+	HX711_Init();
+	LCD_Init();
+
+	LCD_Goto_WriteString(1,1,"Calibrating...");
+	_delay_ms(500);
+	u32 scale_factor = calibrate_scale();
+	LCD_Clear();
+	LCD_Goto_WriteString(2,1,"Calibration done");
+
+	_delay_ms(2000);
+	LCD_Clear();
+
+	while (1) {
+		u32 weight = get_Weight(scale_factor);
+		char buffer[16];
+		dtostrf(weight, 6, 2, buffer);
+
+		LCD_Clear();
+		
+		LCD_Goto_WriteString(1,1,"Weight:");
+		
+		LCD_Goto_WriteString(2,1,buffer);
+		LCD_Goto_WriteString(2,3," g");
+
+		_delay_ms(500);
+	}
+}
+
+void HX711_Init() {
+	DDRD |= (1 << HX711_SCK); // Set SCK as output
+	DDRD &= ~(1 << HX711_DOUT); // Set DOUT as input
+}
+
+u32 HX711_Read() {
+	long count = 0;
+	while (PIND & (1 << HX711_DOUT)); // Wait until the HX711 is ready
+
+	for (uint8_t i = 0; i < 24; i++) {
+		PORTD |= (1 << HX711_SCK);
+		_delay_us(1);
+		count = count << 1;
+		PORTD &= ~(1 << HX711_SCK);
+		if (PIND & (1 << HX711_DOUT)) {
+			count++;
+		}
+	}
+
+	PORTD |= (1 << HX711_SCK);
+	_delay_us(1);
+	PORTD &= ~(1 << HX711_SCK);
+	count ^= 0x800000;
+
+	return count;
+}
+
+u32 calibrate_scale() {
+	LCD_Clear();
+	LCD_Goto_WriteString(1,1,"Place weight");
+	_delay_ms(5000); // Wait for user to place weight
+	u32 raw = HX711_Read();
+	u16 known_weight = 500.0; // Known weight in grams
+	return known_weight / raw;
+}
+
+u32 get_Weight(u32 scale_factor) {
+	u32 raw = HX711_Read();
+	return raw * scale_factor;
+}
+
